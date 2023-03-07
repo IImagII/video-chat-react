@@ -95,6 +95,20 @@ io.on('connection', socket => {
 
    //отключение от сокета
    socket.on('disconnect', leaveRoom)
+
+   //реализация нового кандидата и стримов
+   socket.on(ACTIONS.RELAY_SDP, ({ peerID, sessionDescription }) => {
+      io.to(peerID).emit(ACTIONS.SESSION_DESCRIPTION, {
+         peerID: socket.id,
+         sessionDescription,
+      })
+   })
+   socket.on(ACTIONS.RELAY_ICE, ({ peerID, iceCandidate }) => {
+      io.to(peerID).emit(ACTIONS.ICE_CANDIDATE, {
+         peerID: socket.id,
+         iceCandidate,
+      })
+   })
 })
 
 //проверка загрузки сервера

@@ -6,12 +6,12 @@ export const Room = () => {
    //получаем из URL то id которое приходит
    const { id: roomID } = useParams()
    const { clients, provideMediaRef } = useWebRTC(roomID) // берем из нашего хука по рисоединению
-   console.log('first', clients)
+
    return (
       <div>
          {clients.map(clientID => {
             return (
-               <div>
+               <div key={clientID}>
                   <video
                      ref={instance => {
                         provideMediaRef(clientID, instance)
